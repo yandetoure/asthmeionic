@@ -5,6 +5,8 @@ import { EventService } from '../services/entities/event.service';
 import { SymptomLogService } from '../services/entities/symptom-log.service';
 import { CrisisModalComponent } from './crisis-modal/crisis-modal.component';
 import { SymptomModalComponent } from '../tab1/symptom-modal/symptom-modal.component';
+import { ErModalComponent } from './er-modal/er-modal.component';
+import { HospitalModalComponent } from './hospital-modal/hospital-modal.component';
 
 
 @Component({
@@ -76,6 +78,34 @@ export class Tab3Page implements OnInit {
     }
   }
 
+  async openErModal() {
+    const modal = await this.modalCtrl.create({
+      component: ErModalComponent,
+      cssClass: 'custom-modal'
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.loadData();
+    }
+  }
+
+  async openHospitalModal() {
+    const modal = await this.modalCtrl.create({
+      component: HospitalModalComponent,
+      cssClass: 'custom-modal'
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.loadData();
+    }
+  }
+
   async addEvent() {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Enregistrer quel type d\'événement ?',
@@ -91,14 +121,14 @@ export class Tab3Page implements OnInit {
           text: 'Visite aux Urgences',
           icon: 'medkit-outline',
           handler: () => {
-            this.showToast('Fonctionnalité ajout urgences bientôt disponible');
+            this.openErModal();
           }
         },
         {
           text: 'Hospitalisation',
           icon: 'bed-outline',
           handler: () => {
-            this.showToast('Fonctionnalité ajout hôpital bientôt disponible');
+            this.openHospitalModal();
           }
         },
         {

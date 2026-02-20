@@ -1,0 +1,111 @@
+<ion-header [translucent]="true" class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="dismiss()">
+                <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Visite aux Urgences</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="save()" [disabled]="isSubmitting" color="primary" fill="solid" class="save-btn">
+                Enregistrer
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-bg">
+    <div class="ion-padding">
+        <div class="glass-card form-card">
+            <div class="form-section">
+                <div class="section-title">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                    <span>Informations Générales</span>
+                </div>
+
+                <div class="ion-margin-top">
+                    <ion-item class="transparent-item">
+                        <ion-label position="stacked">Date et Heure</ion-label>
+                        <ion-datetime-button datetime="visited_at"></ion-datetime-button>
+                        <ion-modal>
+                            <ng-template>
+                                <ion-datetime id="visited_at" [(ngModel)]="visit.visited_at"
+                                    presentation="date-time"></ion-datetime>
+                            </ng-template>
+                        </ion-modal>
+                    </ion-item>
+
+                    <ion-item class="transparent-item">
+                        <ion-label position="stacked">Hôpital / Établissement</ion-label>
+                        <ion-input type="text" [(ngModel)]="visit.hospital" placeholder="Nom de l'hôpital"></ion-input>
+                    </ion-item>
+                </div>
+            </div>
+
+            <div class="form-section ion-margin-top">
+                <div class="section-title">
+                    <ion-icon name="pulse-outline"></ion-icon>
+                    <span>Constantes Vitales</span>
+                </div>
+
+                <div class="ion-margin-top">
+                    <ion-item class="transparent-item">
+                        <ion-label position="stacked">Saturation O2 (%)</ion-label>
+                        <ion-input type="number" [(ngModel)]="visit.oxygen_saturation" placeholder="ex: 98"></ion-input>
+                    </ion-item>
+
+                    <div class="stats-row">
+                        <ion-item class="transparent-item half-width">
+                            <ion-label position="stacked">DEP Arrivée</ion-label>
+                            <ion-input type="number" [(ngModel)]="visit.peak_flow_on_arrival"
+                                placeholder="L/min"></ion-input>
+                        </ion-item>
+                        <ion-item class="transparent-item half-width">
+                            <ion-label position="stacked">DEP Sortie</ion-label>
+                            <ion-input type="number" [(ngModel)]="visit.peak_flow_on_discharge"
+                                placeholder="L/min"></ion-input>
+                        </ion-item>
+                    </div>
+
+                    <ion-item class="transparent-item">
+                        <ion-label position="stacked">Durée de la visite (heures)</ion-label>
+                        <ion-input type="number" [(ngModel)]="visit.duration_hours" placeholder="ex: 4"></ion-input>
+                    </ion-item>
+                </div>
+            </div>
+
+            <div class="form-section ion-margin-top">
+                <div class="section-title">
+                    <ion-icon name="medkit-outline"></ion-icon>
+                    <span>Médicaments & Traitements</span>
+                </div>
+
+                <ion-item class="transparent-item">
+                    <ion-label position="stacked">Traitements reçus</ion-label>
+                    <ion-select multiple="true" [(ngModel)]="selectedMedications" placeholder="Choisir les médicaments">
+                        <ion-select-option *ngFor="let m of availableMedications" [value]="m.id">
+                            {{ m.name }}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+
+                <ion-item class="transparent-item">
+                    <ion-label position="stacked">Résultat / Suites</ion-label>
+                    <ion-textarea [(ngModel)]="visit.outcome"
+                        placeholder="ex: Retour domicile, Hospitalisation..."></ion-textarea>
+                </ion-item>
+            </div>
+
+            <div class="form-section ion-margin-top">
+                <div class="section-title">
+                    <ion-icon name="create-outline"></ion-icon>
+                    <span>Notes Complémentaires</span>
+                </div>
+                <ion-item class="transparent-item">
+                    <ion-textarea [(ngModel)]="visit.notes" rows="4"
+                        placeholder="Commentaires additionnels..."></ion-textarea>
+                </ion-item>
+            </div>
+        </div>
+    </div>
+</ion-content>

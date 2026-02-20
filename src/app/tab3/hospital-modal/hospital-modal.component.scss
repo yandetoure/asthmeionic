@@ -1,0 +1,11 @@
+@import '../../tab1/tab1.page.scss';
+@import '../crisis-modal/crisis-modal.component.scss';
+
+.stats-row {
+    display: flex;
+    gap: 10px;
+}
+
+.half-width {
+    flex: 1;
+}

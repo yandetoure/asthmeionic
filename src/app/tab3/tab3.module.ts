@@ -8,6 +8,8 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { Tab3PageRoutingModule } from './tab3-routing.module';
 import { CrisisModalComponent } from './crisis-modal/crisis-modal.component';
 import { SymptomModalComponent } from '../tab1/symptom-modal/symptom-modal.component';
+import { ErModalComponent } from './er-modal/er-modal.component';
+import { HospitalModalComponent } from './hospital-modal/hospital-modal.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { SymptomModalComponent } from '../tab1/symptom-modal/symptom-modal.compo
     ExploreContainerComponentModule,
     Tab3PageRoutingModule,
     CrisisModalComponent,
-    SymptomModalComponent
+    SymptomModalComponent,
+    ErModalComponent,
+    HospitalModalComponent
   ],
   declarations: [Tab3Page]
 })

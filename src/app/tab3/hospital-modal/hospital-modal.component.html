@@ -1,0 +1,128 @@
+<ion-header [translucent]="true" class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="dismiss()">
+                <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Hospitalisation</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="save()" [disabled]="isSubmitting" color="secondary" fill="solid" class="save-btn">
+                Enregistrer
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-bg">
+    <div class="ion-padding">
+        <div class="glass-card form-card">
+            <div class="form-section">
+                <div class="section-title">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                    <span>Dates d'Hospitalisation</span>
+                </div>
+
+                <div class="ion-margin-top">
+                    <ion-item class="transparent-item">
+                        <ion-label position="stacked">Date d'admission</ion-label>
+                        <ion-datetime-button datetime="admission_date"></ion-datetime-button>
+                        <ion-modal>
+                            <ng-template>
+                                <ion-datetime id="admission_date" [(ngModel)]="hospitalization.admission_date"
+                                    presentation="date"></ion-datetime>
+                            </ng-template>
+                        </ion-modal>
+                    </ion-item>
+
+                    <ion-item class="transparent-item">
+                        <ion-label position="stacked">Date de sortie (si connue)</ion-label>
+                        <ion-datetime-button datetime="discharge_date"></ion-datetime-button>
+                        <ion-modal>
+                            <ng-template>
+                                <ion-datetime id="discharge_date" [(ngModel)]="hospitalization.discharge_date"
+                                    presentation="date"></ion-datetime>
+                            </ng-template>
+                        </ion-modal>
+                    </ion-item>
+                </div>
+            </div>
+
+            <div class="form-section ion-margin-top">
+                <div class="section-title">
+                    <ion-icon name="business-outline"></ion-icon>
+                    <span>Détails de l'Établissement</span>
+                </div>
+
+                <div class="ion-margin-top">
+                    <ion-item class="transparent-item">
+                        <ion-label position="stacked">Hôpital</ion-label>
+                        <ion-input type="text" [(ngModel)]="hospitalization.hospital"
+                            placeholder="Nom de l'hôpital"></ion-input>
+                    </ion-item>
+
+                    <ion-item class="transparent-item">
+                        <ion-label position="stacked">Service / Unité</ion-label>
+                        <ion-input type="text" [(ngModel)]="hospitalization.ward"
+                            placeholder="ex: Pneumologie, Réanimation..."></ion-input>
+                    </ion-item>
+                </div>
+            </div>
+
+            <div class="form-section ion-margin-top">
+                <div class="section-title">
+                    <ion-icon name="pulse-outline"></ion-icon>
+                    <span>Suivi Médical</span>
+                </div>
+
+                <div class="ion-margin-top">
+                    <ion-item class="transparent-item">
+                        <ion-label position="stacked">Diagnostic</ion-label>
+                        <ion-input type="text" [(ngModel)]="hospitalization.diagnosis"
+                            placeholder="ex: Exacerbation sévère"></ion-input>
+                    </ion-item>
+
+                    <div class="stats-row">
+                        <ion-item class="transparent-item half-width">
+                            <ion-label position="stacked">DEP Admission</ion-label>
+                            <ion-input type="number" [(ngModel)]="hospitalization.peak_flow_on_admission"
+                                placeholder="L/min"></ion-input>
+                        </ion-item>
+                        <ion-item class="transparent-item half-width">
+                            <ion-label position="stacked">DEP Sortie</ion-label>
+                            <ion-input type="number" [(ngModel)]="hospitalization.peak_flow_on_discharge"
+                                placeholder="L/min"></ion-input>
+                        </ion-item>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section ion-margin-top">
+                <div class="section-title">
+                    <ion-icon name="medkit-outline"></ion-icon>
+                    <span>Traitements à l'Hôpital</span>
+                </div>
+
+                <ion-item class="transparent-item">
+                    <ion-label position="stacked">Médicaments administrés</ion-label>
+                    <ion-select multiple="true" [(ngModel)]="selectedMedications" placeholder="Choisir les médicaments">
+                        <ion-select-option *ngFor="let m of availableMedications" [value]="m.id">
+                            {{ m.name }}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </div>
+
+            <div class="form-section ion-margin-top">
+                <div class="section-title">
+                    <ion-icon name="create-outline"></ion-icon>
+                    <span>Notes & Recommandations</span>
+                </div>
+                <ion-item class="transparent-item">
+                    <ion-textarea [(ngModel)]="hospitalization.notes" rows="4"
+                        placeholder="Résumé de sortie, conseils..."></ion-textarea>
+                </ion-item>
+            </div>
+        </div>
+    </div>
+</ion-content>
