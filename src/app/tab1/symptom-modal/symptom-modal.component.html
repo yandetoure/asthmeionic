@@ -1,0 +1,96 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="dismiss()">Annuler</ion-button>
+        </ion-buttons>
+        <ion-title>Mon Journal</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="save()" [disabled]="isSubmitting" color="primary" class="font-bold">
+                Enregistrer
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding dashboard-bg">
+    <div class="glass-card ion-padding-bottom">
+        <ion-list lines="none" class="transparent-list">
+
+            <ion-item class="transparent-item">
+                <ion-label position="stacked">Date</ion-label>
+                <ion-datetime-button datetime="date-picker"></ion-datetime-button>
+                <ion-modal>
+                    <ng-template>
+                        <ion-datetime id="date-picker" [(ngModel)]="log.date" presentation="date"></ion-datetime>
+                    </ng-template>
+                </ion-modal>
+            </ion-item>
+
+            <div class="ion-padding-horizontal ion-margin-top">
+                <p class="section-title">Niveau des symptômes (0-5)</p>
+
+                <div class="symptom-row">
+                    <ion-icon name=" windy-outline" color="primary"></ion-icon>
+                    <ion-label>Essoufflement</ion-label>
+                    <ion-range min="0" max="5" snaps="true" [(ngModel)]="log.shortness_of_breath" color="primary">
+                        <ion-label slot="start">0</ion-label>
+                        <ion-label slot="end">5</ion-label>
+                    </ion-range>
+                </div>
+
+                <div class="symptom-row">
+                    <ion-icon name="volume-medium-outline" color="warning"></ion-icon>
+                    <ion-label>Toux</ion-label>
+                    <ion-range min="0" max="5" snaps="true" [(ngModel)]="log.cough_level" color="warning">
+                        <ion-label slot="start">0</ion-label>
+                        <ion-label slot="end">5</ion-label>
+                    </ion-range>
+                </div>
+
+                <div class="symptom-row">
+                    <ion-icon name="pulse-outline" color="danger"></ion-icon>
+                    <ion-label>Sifflements</ion-label>
+                    <ion-range min="0" max="5" snaps="true" [(ngModel)]="log.wheezing" color="danger">
+                        <ion-label slot="start">0</ion-label>
+                        <ion-label slot="end">5</ion-label>
+                    </ion-range>
+                </div>
+            </div>
+
+            <ion-item class="transparent-item">
+                <ion-label position="stacked">Réveils nocturnes (nombre)</ion-label>
+                <ion-input type="number" [(ngModel)]="log.night_awakenings" placeholder="0"></ion-input>
+            </ion-item>
+
+            <div class="ion-padding-horizontal ion-margin-top mb-4">
+                <p class="section-title">Mesures Physiques</p>
+                <div class="stats-row">
+                    <div class="stat-input">
+                        <ion-label>Débit de pointe (DEP)</ion-label>
+                        <ion-input type="number" [(ngModel)]="log.peak_flow" placeholder="--- L/min"></ion-input>
+                    </div>
+                    <div class="stat-input">
+                        <ion-label>Score ACT</ion-label>
+                        <ion-input type="number" [(ngModel)]="log.act_score" placeholder="5-25"></ion-input>
+                    </div>
+                </div>
+            </div>
+
+            <ion-item class="transparent-item">
+                <ion-label>Utilisation inhalateur de secours</ion-label>
+                <ion-toggle [(ngModel)]="log.used_rescue_inhaler"></ion-toggle>
+            </ion-item>
+
+            <ion-item class="transparent-item" *ngIf="log.used_rescue_inhaler">
+                <ion-label position="stacked">Nombre de bouffées</ion-label>
+                <ion-input type="number" [(ngModel)]="log.rescue_inhaler_puffs" placeholder="0"></ion-input>
+            </ion-item>
+
+            <ion-item class="transparent-item">
+                <ion-label position="stacked">Notes</ion-label>
+                <ion-textarea [(ngModel)]="log.notes" rows="3" placeholder="Comment vous sentez-vous ?"></ion-textarea>
+            </ion-item>
+
+        </ion-list>
+    </div>
+</ion-content>

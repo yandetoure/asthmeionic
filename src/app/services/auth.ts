@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, finalize } from 'rxjs';
 import { ApiService } from './api';
 import { User } from '../models/models';
 
@@ -31,7 +31,7 @@ export class AuthService {
 
   logout(): Observable<any> {
     return this.api.post<any>('logout', {}).pipe(
-      tap(() => {
+      finalize(() => {
         localStorage.removeItem('auth_token');
         localStorage.removeItem('user');
         this.currentUserSubject.next(null);

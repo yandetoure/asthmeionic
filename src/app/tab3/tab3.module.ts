@@ -6,6 +6,8 @@ import { Tab3Page } from './tab3.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { Tab3PageRoutingModule } from './tab3-routing.module';
+import { CrisisModalComponent } from './crisis-modal/crisis-modal.component';
+
 
 @NgModule({
   imports: [
@@ -15,6 +17,6 @@ import { Tab3PageRoutingModule } from './tab3-routing.module';
     ExploreContainerComponentModule,
     Tab3PageRoutingModule
   ],
-  declarations: [Tab3Page]
+  declarations: [Tab3Page, CrisisModalComponent]
 })
-export class Tab3PageModule {}
+export class Tab3PageModule { }

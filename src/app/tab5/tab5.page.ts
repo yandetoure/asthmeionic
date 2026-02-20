@@ -19,8 +19,9 @@ export class Tab5Page implements OnInit {
     }
 
     logout() {
-        this.auth.logout().subscribe(() => {
-            this.router.navigateByUrl('/auth/login', { replaceUrl: true });
+        this.auth.logout().subscribe({
+            next: () => this.router.navigateByUrl('/auth/login', { replaceUrl: true }),
+            error: () => this.router.navigateByUrl('/auth/login', { replaceUrl: true })
         });
     }
 }

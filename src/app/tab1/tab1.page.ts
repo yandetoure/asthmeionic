@@ -3,7 +3,9 @@ import { AuthService } from '../services/auth';
 import { EventService } from '../services/entities/event.service';
 import { DashboardStats, User } from '../models/models';
 import Chart from 'chart.js/auto';
-import { ToastController } from '@ionic/angular';
+import { ToastController, ModalController } from '@ionic/angular';
+import { SymptomModalComponent } from './symptom-modal/symptom-modal.component';
+
 
 @Component({
   selector: 'app-tab1',
@@ -22,7 +24,8 @@ export class Tab1Page implements OnInit, AfterViewInit {
   constructor(
     private auth: AuthService,
     private eventService: EventService,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -97,12 +100,16 @@ export class Tab1Page implements OnInit, AfterViewInit {
   }
 
   async addSymptomLog() {
-    const toast = await this.toastCtrl.create({
-      message: 'Fonctionnalité journal bientôt disponible',
-      duration: 2000,
-      color: 'medium'
+    const modal = await this.modalCtrl.create({
+      component: SymptomModalComponent
     });
-    toast.present();
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.loadStats();
+    }
   }
 
   async emergency() {

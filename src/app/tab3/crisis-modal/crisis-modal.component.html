@@ -1,0 +1,109 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="dismiss()">Annuler</ion-button>
+        </ion-buttons>
+        <ion-title>Nouvelle Crise</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="save()" [disabled]="isSubmitting" color="primary" class="font-bold">
+                Enregistrer
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding dashboard-bg">
+    <div class="glass-card ion-padding-bottom">
+        <ion-list lines="none" class="transparent-list">
+
+            <ion-item class="transparent-item">
+                <ion-label position="stacked">Date et Heure</ion-label>
+                <ion-datetime-button datetime="datetime"></ion-datetime-button>
+                <ion-modal>
+                    <ng-template>
+                        <ion-datetime id="datetime" [(ngModel)]="crisis.started_at"
+                            presentation="date-time"></ion-datetime>
+                    </ng-template>
+                </ion-modal>
+            </ion-item>
+
+            <ion-item class="transparent-item">
+                <ion-label position="stacked">Gravité</ion-label>
+                <ion-select [(ngModel)]="crisis.severity" placeholder="Sélectionner">
+                    <ion-select-option value="mild">Légère</ion-select-option>
+                    <ion-select-option value="moderate">Modérée</ion-select-option>
+                    <ion-select-option value="severe">Grave</ion-select-option>
+                    <ion-select-option value="life_threatening">Critique</ion-select-option>
+                </ion-select>
+            </ion-item>
+
+            <div class="ion-padding-horizontal ion-margin-top mb-4">
+                <p class="section-title">Débit de pointe (DEP)</p>
+                <div class="stats-row">
+                    <div class="stat-input">
+                        <ion-label>Avant</ion-label>
+                        <ion-input type="number" [(ngModel)]="crisis.peak_flow_before"
+                            placeholder="--- L/min"></ion-input>
+                    </div>
+                    <div class="stat-input">
+                        <ion-label>Après</ion-label>
+                        <ion-input type="number" [(ngModel)]="crisis.peak_flow_after"
+                            placeholder="--- L/min"></ion-input>
+                    </div>
+                </div>
+            </div>
+
+            <ion-item class="transparent-item">
+                <ion-label position="stacked">Médicaments de secours utilisés</ion-label>
+                <ion-select [(ngModel)]="selectedMedications" multiple="true" placeholder="Sélectionner">
+                    <ion-select-option *ngFor="let med of availableMedications" [value]="med.id">
+                        {{ med.name }}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+
+            <div class="ion-padding-horizontal ion-margin-top">
+                <p class="section-title">Signes & Symptômes (0-5)</p>
+
+                <div class="symptom-row">
+                    <ion-icon name=" windy-outline" color="primary"></ion-icon>
+                    <ion-label>Essoufflement</ion-label>
+                    <ion-range min="0" max="5" snaps="true" [(ngModel)]="crisis.shortness_of_breath" color="primary">
+                        <ion-label slot="start">0</ion-label>
+                        <ion-label slot="end">5</ion-label>
+                    </ion-range>
+                </div>
+
+                <div class="symptom-row">
+                    <ion-icon name="volume-medium-outline" color="warning"></ion-icon>
+                    <ion-label>Toux</ion-label>
+                    <ion-range min="0" max="5" snaps="true" [(ngModel)]="crisis.cough_level" color="warning">
+                        <ion-label slot="start">0</ion-label>
+                        <ion-label slot="end">5</ion-label>
+                    </ion-range>
+                </div>
+
+                <div class="symptom-row">
+                    <ion-icon name="pulse-outline" color="danger"></ion-icon>
+                    <ion-label>Sifflements</ion-label>
+                    <ion-range min="0" max="5" snaps="true" [(ngModel)]="crisis.wheezing" color="danger">
+                        <ion-label slot="start">0</ion-label>
+                        <ion-label slot="end">5</ion-label>
+                    </ion-range>
+                </div>
+            </div>
+
+            <ion-item class="transparent-item">
+                <ion-label position="stacked">Lieu / Facteurs déclenchants</ion-label>
+                <ion-input [(ngModel)]="crisis.location" placeholder="Ex: Bureau, Pollen..."></ion-input>
+            </ion-item>
+
+            <ion-item class="transparent-item">
+                <ion-label position="stacked">Notes additionnelles</ion-label>
+                <ion-textarea [(ngModel)]="crisis.notes" rows="3"
+                    placeholder="Description de la crise..."></ion-textarea>
+            </ion-item>
+
+        </ion-list>
+    </div>
+</ion-content>

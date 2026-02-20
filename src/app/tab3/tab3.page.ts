@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from '../services/entities/event.service';
 import { CrisisEvent, ErVisit, Hospitalization } from '../models/models';
-import { ToastController, ActionSheetController } from '@ionic/angular';
+import { ToastController, ActionSheetController, ModalController } from '@ionic/angular';
+import { CrisisModalComponent } from './crisis-modal/crisis-modal.component';
+
 
 @Component({
   selector: 'app-tab3',
@@ -18,7 +20,8 @@ export class Tab3Page implements OnInit {
   constructor(
     private eventService: EventService,
     private toastCtrl: ToastController,
-    private actionSheetCtrl: ActionSheetController
+    private actionSheetCtrl: ActionSheetController,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -39,6 +42,20 @@ export class Tab3Page implements OnInit {
     this.loadData();
   }
 
+  async openCrisisModal() {
+    const modal = await this.modalCtrl.create({
+      component: CrisisModalComponent,
+      cssClass: 'custom-modal'
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.loadData();
+    }
+  }
+
   async addEvent() {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Enregistrer quel type d\'événement ?',
@@ -47,7 +64,7 @@ export class Tab3Page implements OnInit {
           text: 'Nouvelle Crise',
           icon: 'pulse-outline',
           handler: () => {
-            this.showToast('Fonctionnalité ajout crise bientôt disponible');
+            this.openCrisisModal();
           }
         },
         {
