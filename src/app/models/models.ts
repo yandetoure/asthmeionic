@@ -41,6 +41,9 @@ export interface CrisisEvent {
     medications?: CrisisMedication[];
     created_at?: string;
     updated_at?: string;
+    cough_level?: number;
+    shortness_of_breath?: number;
+    wheezing?: number;
 }
 
 export interface CrisisMedication {
