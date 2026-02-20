@@ -1,0 +1,126 @@
+@import '../tab1/tab1.page.scss';
+
+.custom-segment {
+    --background: rgba(255, 255, 255, 0.05);
+    margin: 0 10px 10px;
+    border-radius: 12px;
+
+    ion-segment-button {
+        --color: rgba(255, 255, 255, 0.5);
+        --color-checked: #fff;
+        --indicator-color: #3b82f6;
+        font-weight: 600;
+        font-size: 13px;
+        min-height: 40px;
+    }
+}
+
+.date-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    h3 {
+        color: #fff;
+        margin: 0 15px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    ion-button {
+        --color: #3b82f6;
+    }
+}
+
+.treatment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+    margin-bottom: 12px;
+
+    .med-info {
+        .type {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        h4 {
+            color: #fff;
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.5);
+            margin: 3px 0 0;
+            font-size: 13px;
+        }
+    }
+
+    .status-action {
+        ion-button {
+            --border-radius: 10px;
+            height: 38px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+    }
+}
+
+.empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: rgba(255, 255, 255, 0.4);
+
+    ion-icon {
+        font-size: 64px;
+        margin-bottom: 15px;
+        opacity: 0.3;
+    }
+
+    p {
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+}
+
+.transparent-list {
+    background: transparent;
+    padding: 0;
+}
+
+.med-list-item {
+    margin-bottom: 10px;
+    --padding-start: 15px;
+    --padding-end: 15px;
+
+    ion-icon {
+        font-size: 24px;
+    }
+
+    h2 {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    p {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 13px;
+    }
+
+    ion-badge {
+        font-size: 10px;
+        font-weight: 600;
+        --padding-start: 8px;
+        --padding-end: 8px;
+    }
+}

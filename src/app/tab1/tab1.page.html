@@ -1,17 +1,96 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-title>Tableau de bord</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="loadStats()">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<ion-content [fullscreen]="true" class="dashboard-bg">
+  <ion-header collapse="condense" class="ion-no-border">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Tableau de bord</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <div class="ion-padding">
+    <!-- Welcome section -->
+    <div class="welcome-section" *ngIf="user">
+      <h2>Bonjour, {{ user.name }}</h2>
+      <p>{{ today | date:'fullDate':'':'fr' }}</p>
+    </div>
+
+    <!-- Main Stats Cards -->
+    <div class="stats-grid">
+      <div class="glass-stat-card">
+        <div class="stat-icon crisis">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <span class="label">SANS CRISE</span>
+          <h3 class="value">{{ stats?.days_since_last_crisis ?? '0' }} <small>jours</small></h3>
+        </div>
+      </div>
+
+      <div class="glass-stat-card">
+        <div class="stat-icon adherence">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <span class="label">OBSERVANCE</span>
+          <h3 class="value">{{ stats?.week_adherence ?? 0 }} <small>%</small></h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Today's Treatments -->
+    <div class="section-header">
+      <h3>Traitements d'aujourd'hui</h3>
+      <ion-button fill="clear" size="small" routerLink="/tabs/tab2">Voir tout</ion-button>
+    </div>
+    <div class="glass-card treatment-card" *ngIf="stats">
+      <div class="adherence-status">
+        <div class="progress-info">
+          <span>{{ stats.today_treatments.taken }} / {{ stats.today_treatments.total }} prises</span>
+          <span class="percentage">{{ (stats.today_treatments.total > 0 ? (stats.today_treatments.taken /
+            stats.today_treatments.total) * 100 : 0) | number:'1.0-0' }}%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="inner"
+            [style.width.%]="stats.today_treatments.total > 0 ? (stats.today_treatments.taken / stats.today_treatments.total) * 100 : 0">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Peak Flow Chart -->
+    <div class="section-header">
+      <h3>Évolution du souffle (Débit de pointe)</h3>
+    </div>
+    <div class="glass-card chart-container">
+      <canvas id="peakFlowChart" #peakFlowChart></canvas>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="section-header">
+      <h3>Actions rapides</h3>
+    </div>
+    <div class="actions-grid">
+      <div class="action-btn" routerLink="/tabs/tab3">
+        <ion-icon name="alert-circle" color="danger"></ion-icon>
+        <span>Signaler Crise</span>
+      </div>
+      <div class="action-btn" (click)="addSymptomLog()">
+        <ion-icon name="create-outline" color="primary"></ion-icon>
+        <span>Journal Symptômes</span>
+      </div>
+      <div class="action-btn" (click)="emergency()">
+        <ion-icon name="medical" color="warning"></ion-icon>
+        <span>Contact Urgence</span>
+      </div>
+    </div>
+  </div>
 </ion-content>

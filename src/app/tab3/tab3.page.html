@@ -1,17 +1,116 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+    <ion-title>Événements Graves</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addEvent()">
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="segment" (ionChange)="segmentChanged()" class="custom-segment">
+      <ion-segment-button value="crises">
+        <ion-label>Crises</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="er">
+        <ion-label>Urgences</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="hospital">
+        <ion-label>Hôpital</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="dashboard-bg">
+  <div class="ion-padding">
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+    <!-- Crises Section -->
+    <div *ngIf="segment === 'crises'">
+      <div *ngIf="crises.length === 0" class="empty-state">
+        <ion-icon name="pulse-outline"></ion-icon>
+        <p>Aucune crise enregistrée récemment.</p>
+      </div>
+
+      <div class="glass-card event-card" *ngFor="let crisis of crises">
+        <div class="event-header">
+          <ion-badge [color]="getSeverityColor(crisis.severity)">{{ formatSeverity(crisis.severity) }}</ion-badge>
+          <span class="date">{{ crisis.started_at | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <div class="event-body">
+          <div class="stats" *ngIf="crisis.peak_flow_before || crisis.peak_flow_after">
+            <div class="stat">
+              <span>DEP Avant</span>
+              <strong>{{ crisis.peak_flow_before || '--' }}</strong>
+            </div>
+            <div class="stat">
+              <span>DEP Après</span>
+              <strong>{{ crisis.peak_flow_after || '--' }}</strong>
+            </div>
+          </div>
+          <p class="notes" *ngIf="crisis.notes">{{ crisis.notes }}</p>
+          <div class="meds-snapshot" *ngIf="crisis.medications?.length">
+            <ion-chip outline *ngFor="let m of crisis.medications">
+              <ion-label>{{ m.medication?.name }} ({{ m.dose }})</ion-label>
+            </ion-chip>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ER Visits Section -->
+    <div *ngIf="segment === 'er'">
+      <div *ngIf="erVisits.length === 0" class="empty-state">
+        <ion-icon name="medkit-outline"></ion-icon>
+        <p>Aucune visite aux urgences enregistrée.</p>
+      </div>
+
+      <div class="glass-card event-card" *ngFor="let er of erVisits">
+        <div class="event-header">
+          <span class="location"><ion-icon name="location-outline"></ion-icon> {{ er.hospital }}</span>
+          <span class="date">{{ er.visited_at | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="event-body">
+          <div class="er-details">
+            <span *ngIf="er.duration_hours">Durée: {{ er.duration_hours }}h</span>
+            <span *ngIf="er.oxygen_saturation">O2: {{ er.oxygen_saturation }}%</span>
+          </div>
+          <p class="notes" *ngIf="er.notes">{{ er.notes }}</p>
+          <div class="meds-list" *ngIf="er.medications?.length">
+            <strong>Traitements reçus :</strong>
+            <ul>
+              <li *ngFor="let m of er.medications">{{ m.medication?.name }} - {{ m.dose }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hospitalizations Section -->
+    <div *ngIf="segment === 'hospital'">
+      <div *ngIf="hospitalizations.length === 0" class="empty-state">
+        <ion-icon name="bed-outline"></ion-icon>
+        <p>Aucune hospitalisation enregistrée.</p>
+      </div>
+
+      <div class="glass-card event-card" *ngFor="let hosp of hospitalizations">
+        <div class="event-header">
+          <span class="location"><ion-icon name="business-outline"></ion-icon> {{ hosp.hospital }}</span>
+          <span class="date">{{ hosp.admission_date | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="event-body">
+          <div class="hosp-status">
+            <span>{{ hosp.diagnosis }}</span>
+            <span class="duration" *ngIf="hosp.discharge_date">Sortie le {{ hosp.discharge_date | date:'dd/MM/yyyy'
+              }}</span>
+          </div>
+          <div class="meds-list" *ngIf="hosp.treatments?.length">
+            <strong>Traitement à l'hôpital :</strong>
+            <p *ngFor="let t of hosp.treatments">{{ t.medication?.name }} ({{ t.dose }}) - {{ t.frequency }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </ion-content>

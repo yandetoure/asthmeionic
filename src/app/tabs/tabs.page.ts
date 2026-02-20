@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs',
@@ -8,6 +9,15 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
+  constructor(private toastCtrl: ToastController) { }
 
+  async notImplemented() {
+    const toast = await this.toastCtrl.create({
+      message: 'Cette fonctionnalité sera bientôt disponible',
+      duration: 2000,
+      position: 'bottom',
+      color: 'medium'
+    });
+    await toast.present();
+  }
 }

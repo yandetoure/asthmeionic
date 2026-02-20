@@ -1,0 +1,53 @@
+<ion-content [fullscreen]="true" class="ion-padding auth-bg">
+  <div class="auth-container">
+    <div class="header">
+      <div class="logo-container">
+        <ion-icon name="person-add" color="primary"></ion-icon>
+      </div>
+      <h1>Créer un compte</h1>
+      <p>Commencez à suivre votre asthme dès aujourd'hui</p>
+    </div>
+
+    <form (ngSubmit)="register()" #registerForm="ngForm">
+      <div class="glass-card">
+        <ion-item lines="full" class="ion-margin-bottom">
+          <ion-label position="stacked">Nom complet</ion-label>
+          <ion-input type="text" placeholder="Jean Dupont" name="name" [(ngModel)]="user.name" required></ion-input>
+        </ion-item>
+
+        <ion-item lines="full" class="ion-margin-bottom">
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input type="email" placeholder="votre@email.com" name="email" [(ngModel)]="user.email" required
+            email></ion-input>
+        </ion-item>
+
+        <ion-item lines="full" class="ion-margin-bottom">
+          <ion-label position="stacked">Mot de passe</ion-label>
+          <ion-input type="password" placeholder="••••••••" name="password" [(ngModel)]="user.password" required
+            minlength="8"></ion-input>
+        </ion-item>
+
+        <ion-item lines="full" class="ion-margin-bottom">
+          <ion-label position="stacked">Confirmer le mot de passe</ion-label>
+          <ion-input type="password" placeholder="••••••••" name="password_confirmation"
+            [(ngModel)]="user.password_confirmation" required></ion-input>
+        </ion-item>
+
+        <div class="error-msg" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <ion-button expand="block" type="submit" [disabled]="!registerForm.form.valid || loading"
+          class="ion-margin-top primary-btn">
+          <ion-spinner name="crescent" *ngIf="loading"></ion-spinner>
+          <span *ngIf="!loading">S'inscrire</span>
+        </ion-button>
+      </div>
+    </form>
+
+    <div class="footer ion-text-center">
+      <p>Vous avez déjà un compte ?</p>
+      <ion-button fill="clear" routerLink="/auth/login">Se connecter</ion-button>
+    </div>
+  </div>
+</ion-content>

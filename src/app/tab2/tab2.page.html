@@ -1,17 +1,92 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+    <ion-title>Traitements</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openAddMedication()">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="segment" (ionChange)="segmentChanged()" class="custom-segment">
+      <ion-segment-button value="daily">
+        <ion-label>Quotidien</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="inventory">
+        <ion-label>Inventaire</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="dashboard-bg">
+  <div class="ion-padding">
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+    <!-- Daily Tracking Section -->
+    <div *ngIf="segment === 'daily'">
+      <div class="date-selector">
+        <ion-button fill="clear" (click)="changeDate(-1)">
+          <ion-icon name="chevron-back"></ion-icon>
+        </ion-button>
+        <h3>{{ selectedDate | date:'dd MMM yyyy':'':'fr' }}</h3>
+        <ion-button fill="clear" (click)="changeDate(1)">
+          <ion-icon name="chevron-forward"></ion-icon>
+        </ion-button>
+      </div>
+
+      <div *ngIf="dailyTreatments.length === 0" class="empty-state">
+        <ion-icon name="medical-outline"></ion-icon>
+        <p>Aucun traitement prévu pour aujourd'hui.</p>
+        <ion-button fill="outline" size="small" (click)="segment = 'inventory'">Gérer mes médicaments</ion-button>
+      </div>
+
+      <div class="glass-card treatment-item" *ngFor="let item of dailyTreatments">
+        <div class="med-info">
+          <span class="type">{{ formatMedType(item.medication?.type) }}</span>
+          <h4>{{ item.medication?.name }}</h4>
+          <p>{{ item.dose }} • {{ item.medication?.dosage }}</p>
+        </div>
+        <div class="status-action">
+          <ion-button [color]="item.taken ? 'success' : 'primary'" [fill]="item.taken ? 'solid' : 'outline'"
+            (click)="toggleTaken(item)">
+            <ion-icon [name]="item.taken ? 'checkmark-circle' : 'circle-outline'"></ion-icon>
+            <span class="ion-margin-start">{{ item.taken ? (item.taken_at | date:'HH:mm') : 'Prendre' }}</span>
+          </ion-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inventory Section -->
+    <div *ngIf="segment === 'inventory'">
+      <div class="section-header">
+        <h3>Mes médicaments</h3>
+      </div>
+
+      <div *ngIf="medications.length === 0" class="empty-state">
+        <p>Vous n'avez pas encore ajouté de médicaments.</p>
+        <ion-button (click)="openAddMedication()">Ajouter un médicament</ion-button>
+      </div>
+
+      <ion-list lines="none" class="transparent-list">
+        <ion-item-sliding *ngFor="let med of medications">
+          <ion-item class="glass-card med-list-item">
+            <ion-icon slot="start" [name]="getMedIcon(med.type)" [color]="getMedColor(med.type)"></ion-icon>
+            <ion-label>
+              <h2>{{ med.name }}</h2>
+              <p>{{ med.dosage }} • {{ med.frequency }}</p>
+            </ion-label>
+            <ion-badge slot="end" [color]="med.is_active ? 'success' : 'medium'">
+              {{ med.is_active ? 'Actif' : 'Inactif' }}
+            </ion-badge>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option color="danger" (click)="deleteMedication(med)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </div>
+
+  </div>
 </ion-content>

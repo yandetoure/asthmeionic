@@ -1,0 +1,42 @@
+<ion-content [fullscreen]="true" class="ion-padding auth-bg">
+  <div class="auth-container">
+    <div class="header">
+      <div class="logo-container">
+        <ion-icon name="medical" color="primary"></ion-icon>
+      </div>
+      <h1>AsthmeSuivi</h1>
+      <p>Connectez-vous pour suivre votre santé</p>
+    </div>
+
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+      <div class="glass-card">
+        <ion-item lines="full" class="ion-margin-bottom">
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input type="email" placeholder="votre@email.com" name="email" [(ngModel)]="credentials.email" required
+            email></ion-input>
+        </ion-item>
+
+        <ion-item lines="full" class="ion-margin-bottom">
+          <ion-label position="stacked">Mot de passe</ion-label>
+          <ion-input type="password" placeholder="••••••••" name="password" [(ngModel)]="credentials.password"
+            required></ion-input>
+        </ion-item>
+
+        <div class="error-msg" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <ion-button expand="block" type="submit" [disabled]="!loginForm.form.valid || loading"
+          class="ion-margin-top primary-btn">
+          <ion-spinner name="crescent" *ngIf="loading"></ion-spinner>
+          <span *ngIf="!loading">Se connecter</span>
+        </ion-button>
+      </div>
+    </form>
+
+    <div class="footer ion-text-center">
+      <p>Vous n'avez pas de compte ?</p>
+      <ion-button fill="clear" routerLink="/auth/register">Créer un compte</ion-button>
+    </div>
+  </div>
+</ion-content>
