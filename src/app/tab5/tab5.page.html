@@ -1,0 +1,52 @@
+<ion-header [translucent]="true" class="ion-no-border">
+    <ion-toolbar>
+        <ion-title>Profil</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-bg">
+    <ion-header collapse="condense" class="ion-no-border">
+        <ion-toolbar>
+            <ion-title size="large">Profil</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <div class="ion-padding" *ngIf="user">
+        <div class="glass-card user-header">
+            <div class="avatar-container">
+                <div class="avatar-placeholder">
+                    {{ user.name.charAt(0) }}
+                </div>
+            </div>
+            <h2>{{ user.name }}</h2>
+            <p>{{ user.email }}</p>
+        </div>
+
+        <ion-list lines="none" class="transparent-list ion-margin-top">
+            <div class="glass-card ion-margin-bottom">
+                <ion-item class="transparent-item">
+                    <ion-icon slot="start" name="person-outline"></ion-icon>
+                    <ion-label>Mes informations</ion-label>
+                    <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+                </ion-item>
+                <ion-item class="transparent-item">
+                    <ion-icon slot="start" name="notifications-outline"></ion-icon>
+                    <ion-label>Notifications</ion-label>
+                    <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+                </ion-item>
+                <ion-item class="transparent-item">
+                    <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+                    <ion-label>Sécurité</ion-label>
+                    <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+                </ion-item>
+            </div>
+
+            <div class="glass-card">
+                <ion-item class="transparent-item" (click)="logout()" detail="false">
+                    <ion-icon slot="start" name="log-out-outline" color="danger"></ion-icon>
+                    <ion-label color="danger">Se déconnecter</ion-label>
+                </ion-item>
+            </div>
+        </ion-list>
+    </div>
+</ion-content>
