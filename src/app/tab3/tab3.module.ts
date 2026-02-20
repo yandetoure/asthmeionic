@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab3PageRoutingModule } from './tab3-routing.module';
 import { CrisisModalComponent } from './crisis-modal/crisis-modal.component';
+import { SymptomModalComponent } from '../tab1/symptom-modal/symptom-modal.component';
 
 
 @NgModule({
@@ -15,8 +16,10 @@ import { CrisisModalComponent } from './crisis-modal/crisis-modal.component';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab3PageRoutingModule
+    Tab3PageRoutingModule,
+    CrisisModalComponent,
+    SymptomModalComponent
   ],
-  declarations: [Tab3Page, CrisisModalComponent]
+  declarations: [Tab3Page]
 })
 export class Tab3PageModule { }

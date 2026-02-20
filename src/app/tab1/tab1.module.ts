@@ -15,8 +15,9 @@ import { SymptomModalComponent } from './symptom-modal/symptom-modal.component';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab1PageRoutingModule
+    Tab1PageRoutingModule,
+    SymptomModalComponent
   ],
-  declarations: [Tab1Page, SymptomModalComponent]
+  declarations: [Tab1Page]
 })
 export class Tab1PageModule { }

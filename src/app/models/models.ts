@@ -44,6 +44,9 @@ export interface CrisisEvent {
     cough_level?: number;
     shortness_of_breath?: number;
     wheezing?: number;
+    temperature?: number;
+    difficulty_speaking?: number;
+    chest_tightness?: number;
 }
 
 export interface CrisisMedication {
@@ -120,6 +123,9 @@ export interface SymptomLog {
     act_score?: number;
     used_rescue_inhaler: boolean;
     rescue_inhaler_puffs: number;
+    temperature?: number;
+    difficulty_speaking?: number;
+    chest_tightness?: number;
     notes?: string;
     created_at?: string;
     updated_at?: string;

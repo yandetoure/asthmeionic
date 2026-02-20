@@ -1,6 +1,6 @@
 <ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
-    <ion-title>Événements Graves</ion-title>
+    <ion-title>Suivi & Historique</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="addEvent()">
         <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
@@ -17,6 +17,9 @@
       </ion-segment-button>
       <ion-segment-button value="hospital">
         <ion-label>Hôpital</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="journal">
+        <ion-label>Journal</ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -108,6 +111,48 @@
             <strong>Traitement à l'hôpital :</strong>
             <p *ngFor="let t of hosp.treatments">{{ t.medication?.name }} ({{ t.dose }}) - {{ t.frequency }}</p>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily Logs Section -->
+    <div *ngIf="segment === 'journal'">
+      <div *ngIf="logs.length === 0" class="empty-state">
+        <ion-icon name="create-outline"></ion-icon>
+        <p>Aucun journal quotidien enregistré.</p>
+      </div>
+
+      <div class="glass-card event-card" *ngFor="let log of logs">
+        <div class="event-header">
+          <span class="date">{{ log.date | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <div class="event-body">
+          <div class="symptom-badges">
+            <ion-chip [color]="log.shortness_of_breath > 2 ? 'danger' : 'primary'">
+              <ion-label>Essoufflement: {{ log.shortness_of_breath }}</ion-label>
+            </ion-chip>
+            <ion-chip [color]="log.cough_level > 2 ? 'danger' : 'warning'">
+              <ion-label>Toux: {{ log.cough_level }}</ion-label>
+            </ion-chip>
+            <ion-chip [color]="log.wheezing > 2 ? 'danger' : 'danger'">
+              <ion-label>Sifflements: {{ log.wheezing }}</ion-label>
+            </ion-chip>
+          </div>
+          <div class="stats ion-margin-top">
+            <div class="stat" *ngIf="log.peak_flow">
+              <span>DEP</span>
+              <strong>{{ log.peak_flow }}</strong>
+            </div>
+            <div class="stat" *ngIf="log.act_score">
+              <span>Score ACT</span>
+              <strong>{{ log.act_score }}</strong>
+            </div>
+            <div class="stat" *ngIf="log.temperature">
+              <span>Temp.</span>
+              <strong>{{ log.temperature }}°C</strong>
+            </div>
+          </div>
+          <p class="notes" *ngIf="log.notes">{{ log.notes }}</p>
         </div>
       </div>
     </div>

@@ -63,12 +63,39 @@
             </ion-item>
 
             <div class="ion-padding-horizontal ion-margin-top mb-4">
-                <p class="section-title">Mesures Physiques</p>
+                <p class="section-title">Signes Physiques & Cliniques</p>
                 <div class="stats-row">
+                    <div class="stat-input">
+                        <ion-label>Température (°C)</ion-label>
+                        <ion-input type="number" [(ngModel)]="log.temperature" placeholder="37.0"></ion-input>
+                    </div>
                     <div class="stat-input">
                         <ion-label>Débit de pointe (DEP)</ion-label>
                         <ion-input type="number" [(ngModel)]="log.peak_flow" placeholder="--- L/min"></ion-input>
                     </div>
+                </div>
+
+                <div class="ion-margin-top ion-padding-horizontal">
+                    <div class="symptom-row">
+                        <ion-icon name="chatbubble-outline" color="tertiary"></ion-icon>
+                        <ion-label>Difficulté à parler (0-5)</ion-label>
+                        <ion-range min="0" max="5" snaps="true" [(ngModel)]="log.difficulty_speaking" color="tertiary">
+                            <ion-label slot="start">0</ion-label>
+                            <ion-label slot="end">5</ion-label>
+                        </ion-range>
+                    </div>
+
+                    <div class="symptom-row ion-margin-top">
+                        <ion-icon name="hand-right-outline" color="secondary"></ion-icon>
+                        <ion-label>Oppression thoracique (0-5)</ion-label>
+                        <ion-range min="0" max="5" snaps="true" [(ngModel)]="log.chest_tightness" color="secondary">
+                            <ion-label slot="start">0</ion-label>
+                            <ion-label slot="end">5</ion-label>
+                        </ion-range>
+                    </div>
+                </div>
+
+                <div class="stats-row ion-margin-top">
                     <div class="stat-input">
                         <ion-label>Score ACT</ion-label>
                         <ion-input type="number" [(ngModel)]="log.act_score" placeholder="5-25"></ion-input>

@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
-import { MedicationService } from '../../services/entities/medication.service';
+import { CrisisEvent, Medication } from '../../models/models';
 import { EventService } from '../../services/entities/event.service';
-import { Medication, CrisisEvent } from '../../models/models';
+import { MedicationService } from '../../services/entities/medication.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 
 @Component({
     selector: 'app-crisis-modal',
     templateUrl: './crisis-modal.component.html',
     styleUrls: ['./crisis-modal.component.scss'],
-    standalone: false
+    standalone: true,
+    imports: [IonicModule, CommonModule, FormsModule]
 })
 export class CrisisModalComponent implements OnInit {
     crisis: Partial<CrisisEvent> = {
@@ -21,7 +24,10 @@ export class CrisisModalComponent implements OnInit {
         triggers: [],
         cough_level: 0,
         shortness_of_breath: 0,
-        wheezing: 0
+        wheezing: 0,
+        temperature: undefined,
+        difficulty_speaking: 0,
+        chest_tightness: 0
     };
 
     availableMedications: Medication[] = [];

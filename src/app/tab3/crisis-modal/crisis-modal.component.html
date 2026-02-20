@@ -37,16 +37,23 @@
                 </ion-select>
             </ion-item>
 
-            <div class="ion-padding-horizontal ion-margin-top mb-4">
-                <p class="section-title">Débit de pointe (DEP)</p>
+            <div class="ion-padding-horizontal ion-margin-top">
+                <p class="section-title">Données Cliniques</p>
+                <div class="stats-row ion-margin-bottom">
+                    <div class="stat-input">
+                        <ion-label>Température (°C)</ion-label>
+                        <ion-input type="number" [(ngModel)]="crisis.temperature" placeholder="37.0"></ion-input>
+                    </div>
+                </div>
+
                 <div class="stats-row">
                     <div class="stat-input">
-                        <ion-label>Avant</ion-label>
+                        <ion-label>DEP Avant</ion-label>
                         <ion-input type="number" [(ngModel)]="crisis.peak_flow_before"
                             placeholder="--- L/min"></ion-input>
                     </div>
                     <div class="stat-input">
-                        <ion-label>Après</ion-label>
+                        <ion-label>DEP Après</ion-label>
                         <ion-input type="number" [(ngModel)]="crisis.peak_flow_after"
                             placeholder="--- L/min"></ion-input>
                     </div>
@@ -90,6 +97,26 @@
                         <ion-label slot="start">0</ion-label>
                         <ion-label slot="end">5</ion-label>
                     </ion-range>
+                </div>
+                <div class="ion-margin-top">
+                    <div class="symptom-row">
+                        <ion-icon name="chatbubble-outline" color="tertiary"></ion-icon>
+                        <ion-label>Difficulté à parler (0-5)</ion-label>
+                        <ion-range min="0" max="5" snaps="true" [(ngModel)]="crisis.difficulty_speaking"
+                            color="tertiary">
+                            <ion-label slot="start">0</ion-label>
+                            <ion-label slot="end">5</ion-label>
+                        </ion-range>
+                    </div>
+
+                    <div class="symptom-row ion-margin-top">
+                        <ion-icon name="hand-right-outline" color="secondary"></ion-icon>
+                        <ion-label>Oppression thoracique (0-5)</ion-label>
+                        <ion-range min="0" max="5" snaps="true" [(ngModel)]="crisis.chest_tightness" color="secondary">
+                            <ion-label slot="start">0</ion-label>
+                            <ion-label slot="end">5</ion-label>
+                        </ion-range>
+                    </div>
                 </div>
             </div>
 

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActionSheetController, ModalController, ToastController } from '@ionic/angular';
+import { CrisisEvent, ErVisit, Hospitalization, SymptomLog } from '../models/models';
 import { EventService } from '../services/entities/event.service';
-import { CrisisEvent, ErVisit, Hospitalization } from '../models/models';
-import { ToastController, ActionSheetController, ModalController } from '@ionic/angular';
+import { SymptomLogService } from '../services/entities/symptom-log.service';
 import { CrisisModalComponent } from './crisis-modal/crisis-modal.component';
+import { SymptomModalComponent } from '../tab1/symptom-modal/symptom-modal.component';
 
 
 @Component({
@@ -16,9 +18,11 @@ export class Tab3Page implements OnInit {
   crises: CrisisEvent[] = [];
   erVisits: ErVisit[] = [];
   hospitalizations: Hospitalization[] = [];
+  logs: SymptomLog[] = [];
 
   constructor(
     private eventService: EventService,
+    private symptomService: SymptomLogService,
     private toastCtrl: ToastController,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController
@@ -35,6 +39,8 @@ export class Tab3Page implements OnInit {
       this.eventService.getErVisits().subscribe(res => this.erVisits = res.data || res);
     } else if (this.segment === 'hospital') {
       this.eventService.getHospitalizations().subscribe(res => this.hospitalizations = res.data || res);
+    } else if (this.segment === 'journal') {
+      this.symptomService.getAll().subscribe(res => this.logs = res.data || res);
     }
   }
 
@@ -45,6 +51,20 @@ export class Tab3Page implements OnInit {
   async openCrisisModal() {
     const modal = await this.modalCtrl.create({
       component: CrisisModalComponent,
+      cssClass: 'custom-modal'
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.loadData();
+    }
+  }
+
+  async openSymptomModal() {
+    const modal = await this.modalCtrl.create({
+      component: SymptomModalComponent,
       cssClass: 'custom-modal'
     });
 
@@ -79,6 +99,13 @@ export class Tab3Page implements OnInit {
           icon: 'bed-outline',
           handler: () => {
             this.showToast('Fonctionnalité ajout hôpital bientôt disponible');
+          }
+        },
+        {
+          text: 'Journal Symptômes',
+          icon: 'create-outline',
+          handler: () => {
+            this.openSymptomModal();
           }
         },
         {

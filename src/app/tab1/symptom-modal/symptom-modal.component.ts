@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { SymptomLogService } from '../../services/entities/symptom-log.service';
 import { SymptomLog } from '../../models/models';
 
@@ -7,7 +9,8 @@ import { SymptomLog } from '../../models/models';
     selector: 'app-symptom-modal',
     templateUrl: './symptom-modal.component.html',
     styleUrls: ['./symptom-modal.component.scss'],
-    standalone: false
+    standalone: true,
+    imports: [IonicModule, CommonModule, FormsModule]
 })
 export class SymptomModalComponent implements OnInit {
     log: Partial<SymptomLog> = {
@@ -20,6 +23,9 @@ export class SymptomModalComponent implements OnInit {
         act_score: undefined,
         used_rescue_inhaler: false,
         rescue_inhaler_puffs: 0,
+        temperature: undefined,
+        difficulty_speaking: 0,
+        chest_tightness: 0,
         notes: ''
     };
 
